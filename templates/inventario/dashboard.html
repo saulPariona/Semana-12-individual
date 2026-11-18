@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<p>Vista protegida con <code>@login_required</code>. Usuario: <b>{{ user.username }}</b>
+  {% if user.is_superuser %}(superusuario){% elif user.is_staff %}(staff){% endif %}
+  — grupos: {% for g in user.groups.all %}<code>{{ g.name }}</code> {% empty %}ninguno{% endfor %}</p>
+<div class="cards">
+  <div class="card">Productos<b>{{ total_productos }}</b></div>
+  <div class="card">Bajo stock<b>{{ bajo_stock }}</b></div>
+  <div class="card">Páginas vistas (sesión)<b>{{ session_info.paginas_vistas }}</b></div>
+</div>
+<h3>Permisos (<code>user.has_perm()</code>)</h3>
+<table>
+  {% for perm, ok in permisos.items %}
+  <tr><td><code>inventario.{{ perm }}</code></td><td class="{% if ok %}si{% else %}no{% endif %}">{% if ok %}Sí{% else %}No{% endif %}</td></tr>
+  {% endfor %}
+</table>
+<h3>Datos de la sesión (escritos por <code>UltimaActividadMiddleware</code>)</h3>
+<table>
+  <tr><th>session_key</th><td><code>{{ session_info.session_key }}</code></td></tr>
+  <tr><th>Expira en (s)</th><td>{{ session_info.expira_en_seg }}</td></tr>
+  <tr><th>Última actividad</th><td>{{ session_info.ultima_actividad }}</td></tr>
+  <tr><th>Historial (últimas 5 rutas)</th><td>{{ session_info.historial|join:" → " }}</td></tr>
+</table>
+{% endblock %}

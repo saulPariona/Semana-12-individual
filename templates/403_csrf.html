@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}CSRF rechazado{% endblock %}
+{% block content %}
+<h1>403 – Verificación CSRF fallida</h1>
+<p>La solicitud fue rechazada por <code>CsrfViewMiddleware</code>.</p>
+<p>Motivo: <code>{{ reason }}</code></p>
+{% endblock %}

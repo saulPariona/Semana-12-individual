@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Contacto{% endblock %}
+{% block content %}
+<h1>Contacto (formulario clásico)</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<p><b>Errores generales (__all__ / non_field_errors) – renderizados por form.as_p:</b></p>{% endif %}
+  {{ form.as_p }}
+  <button class="btn" type="submit">Enviar</button>
+</form>
+{% if form.errors %}
+<div class="errores-debug">
+  <b>form.errors (estructura completa, por campo y __all__):</b>
+  {{ form.errors }}
+  <b>form.errors.as_json:</b>
+  <pre>{{ form.errors.as_json }}</pre>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Reportes{% endblock %}
+{% block content %}
+<h1>Reporte por categoría</h1>
+<p>Protegido con <code>PermissionRequiredMixin</code> (<code>inventario.ver_reportes</code>).</p>
+<table>
+  <tr><th>Categoría</th><th>N° productos</th><th>Unidades</th><th>Valor (S/)</th></tr>
+  {% for c in categorias %}
+  <tr><td>{{ c.nombre }}</td><td>{{ c.n }}</td><td>{{ c.unidades|default:0 }}</td><td>{{ c.valor|default:0|floatformat:2 }}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

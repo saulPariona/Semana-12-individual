@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content %}
+<h1>{{ titulo }} (ModelForm)</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<p><b>Errores generales (__all__ / non_field_errors) – renderizados por form.as_p:</b></p>{% endif %}
+  {{ form.as_p }}
+  <button class="btn" type="submit">Guardar</button>
+  <a class="btn sec" href="{% url 'inventario:producto_list' %}">Cancelar</a>
+</form>
+{% if form.errors %}
+<div class="errores-debug"><b>form.errors:</b>{{ form.errors }}</div>
+{% endif %}
+{% endblock %}

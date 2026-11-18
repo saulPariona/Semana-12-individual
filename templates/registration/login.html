@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión{% endblock %}
+{% block content %}
+<h1>Iniciar sesión</h1>
+{% if next and not user.is_authenticated %}<div class="msg warning">Debes iniciar sesión para acceder a <code>{{ next }}</code>.</div>{% endif %}
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="btn" type="submit">Entrar</button>
+</form>
+<p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate</a></p>
+{% endblock %}

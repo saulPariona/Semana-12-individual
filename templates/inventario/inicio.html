@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Sistema de Inventario – Semana 12</h1>
+<p>Práctica de Django 5: formularios (Form y ModelForm), validación multinivel, sanitización, Django Admin,
+middleware personalizado, sesiones, autenticación, permisos y protección CSRF.</p>
+<ul>
+  <li><a href="{% url 'inventario:contacto' %}">Formulario clásico de contacto</a> (público)</li>
+  <li><a href="{% url 'registro' %}">Registro de usuario</a> → <a href="{% url 'login' %}">Login</a></li>
+  <li><a href="{% url 'inventario:dashboard' %}">Dashboard</a> (requiere <code>@login_required</code>)</li>
+  <li><a href="{% url 'inventario:producto_crear' %}">Nuevo producto</a> (ModelForm + permiso <code>add_producto</code>)</li>
+  <li><a href="{% url 'inventario:reporte' %}">Reportes</a> (<code>PermissionRequiredMixin</code> + permiso <code>ver_reportes</code>)</li>
+</ul>
+{% endblock %}

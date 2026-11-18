@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Acceso denegado{% endblock %}
+{% block content %}
+<h1>403 – Acceso denegado</h1>
+<p>No tienes permisos suficientes para acceder a este recurso (<code>PermissionDenied</code>).</p>
+<a class="btn" href="{% url 'inventario:dashboard' %}">Volver al dashboard</a>
+{% endblock %}
