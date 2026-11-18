@@ -50,13 +50,7 @@ evidencias/               Capturas de pantalla de cada fase
 - Las vistas **nunca** guardan desde `request.POST`: siempre `Form(request.POST)` → `is_valid()` → `save()`, y después redirigen (patrón PRG).
 - Las plantillas usan `{% csrf_token %}`, `{{ form.as_p }}` y `{{ form.errors }}`.
 
-| Formulario clásico | ModelForm |
-|---|---|
-| ![](evidencias/01_fase1_codigo_form_clasico.png) | ![](evidencias/02_fase1_codigo_modelform.png) |
 
-| Vista POST | Formulario renderizado |
-|---|---|
-| ![](evidencias/03_fase1_codigo_vista_post.png) | ![](evidencias/04_fase1_form_clasico_vacio.png) |
 
 ## Fase 2 – Validación y sanitización
 
@@ -67,15 +61,6 @@ Tres niveles de validación:
 
 `sanitize_input()` aplica `strip_tags()`, `strip()`, colapsa los espacios internos y, de forma opcional, `lower()` y `escape()`.
 
-![Código de validadores](evidencias/05_fase2_codigo_validadores_sanitize.png)
-
-| Errores por campo (XSS, SQLi, regex, cross-field) | Error global `__all__` |
-|---|---|
-| ![](evidencias/06_fase2_errores_por_campo.png) | ![](evidencias/07_fase2_error_global_all.png) |
-
-| Envío correcto | ModelForm: errores de campo, formulario y modelo | Guardado ya sanitizado |
-|---|---|---|
-| ![](evidencias/08_fase2_contacto_enviado_ok.png) | ![](evidencias/09_fase2_modelform_errores_3_niveles.png) | ![](evidencias/10_fase2_modelform_guardado_sanitizado.png) |
 
 ## Fase 3 – Django Admin
 
@@ -85,19 +70,7 @@ Tres niveles de validación:
 - `MensajeContactoAdmin`: todos los campos son de solo lectura y no se permite agregar (`has_add_permission=False`).
 - Nunca se exponen campos sensibles: el usuario creador es `readonly` y se asigna en `save_model()`.
 
-![](evidencias/11_fase3_codigo_admin.png)
 
-| Index | list_display + filtros | Filtro personalizado |
-|---|---|---|
-| ![](evidencias/12_fase3_admin_index.png) | ![](evidencias/13_fase3_admin_list_display_filtros.png) | ![](evidencias/14_fase3_admin_filtro_bajo_stock.png) |
-
-| search_fields | Acción masiva | Acción ejecutada |
-|---|---|---|
-| ![](evidencias/15_fase3_admin_search_fields.png) | ![](evidencias/16_fase3_admin_accion_masiva_seleccion.png) | ![](evidencias/17_fase3_admin_accion_ejecutada.png) |
-
-| readonly_fields | Categorías (campos calculados) | Mensajes | Rol Editores |
-|---|---|---|---|
-| ![](evidencias/18_fase3_admin_readonly_fields.png) | ![](evidencias/19_fase3_admin_categoria_campos_calculados.png) | ![](evidencias/20_fase3_admin_mensajes_contacto.png) | ![](evidencias/21_fase3_admin_rol_editores_permisos.png) |
 
 ## Fase 4 – Middleware, sesiones y autorización
 
@@ -108,45 +81,12 @@ Tres niveles de validación:
 - CSRF: `CSRF_COOKIE_SECURE` y `SESSION_COOKIE_SECURE` se activan con `DEBUG=False`; hay una vista propia `CSRF_FAILURE_VIEW`.
 - `@login_required`, `@permission_required`, `LoginRequiredMixin`, `PermissionRequiredMixin` y `user.has_perm()`.
 
-| Middleware | Orden en `MIDDLEWARE` |
-|---|---|
-| ![](evidencias/22_fase4_codigo_middleware.png) | ![](evidencias/23_fase4_codigo_settings_middleware.png) |
-
-| Sesiones / CSRF / seguridad | login_required y PermissionRequiredMixin |
-|---|---|
-| ![](evidencias/24_fase4_codigo_settings_sesiones_csrf.png) | ![](evidencias/25_fase4_codigo_login_required_permission_mixin.png) |
-
-| Redirección a LOGIN_URL | Sesión y permisos (lector) | 403 por permiso |
-|---|---|---|
-| ![](evidencias/26_fase4_login_required_redireccion.png) | ![](evidencias/27_fase4_dashboard_lector_sesion_permisos.png) | ![](evidencias/28_fase4_lector_403_permission_required.png) |
-
-| No staff → sin acceso al admin | POST sin token CSRF → 403 |
-|---|---|
-| ![](evidencias/29_fase4_lector_sin_acceso_admin.png) | ![](evidencias/30_fase4_csrf_token_ausente_403.png) |
 
 ## Fase 5 – Integración y auditoría
 
 Flujo completo: **registro → login → acceso restringido → admin → logout**.
 
-| Registro con errores | Registro OK con login automático | Usuario nuevo sin permiso |
-|---|---|---|
-| ![](evidencias/31_fase5_registro_errores.png) | ![](evidencias/32_fase5_registro_ok_login_automatico.png) | ![](evidencias/33_fase5_usuario_nuevo_sin_permiso_403.png) |
 
-| Logout | Login de editor | Reportes (con permiso) |
-|---|---|---|
-| ![](evidencias/34_fase5_logout.png) | ![](evidencias/35_fase5_login_editor_dashboard.png) | ![](evidencias/36_fase5_editor_reportes.png) |
-
-| Cookies y cabeceras (X-Frame-Options, CSP…) | Logs del middleware |
-|---|---|
-| ![](evidencias/37_fase5_devtools_cookies_headers.png) | ![](evidencias/38_fase5_logs_middleware.png) |
-
-| Migraciones | Pruebas (17 OK) |
-|---|---|
-| ![](evidencias/39_fase5_terminal_migraciones.png) | ![](evidencias/40_fase5_terminal_tests.png) |
-
-| `check --deploy` en desarrollo (5 avisos esperados) | `check --deploy` en producción (0 issues) |
-|---|---|
-| ![](evidencias/41_fase5_check_deploy_desarrollo.png) | ![](evidencias/42_fase5_check_deploy_produccion.png) |
 
 ### Producción
 
